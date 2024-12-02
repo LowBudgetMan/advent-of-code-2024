@@ -14,19 +14,7 @@ public class Day2 {
     private static int part1(List<Report> reports) {
         var totalSafeReports = 0;
         for (Report report : reports) {
-            var isSafe = true;
-            var increasing = report.levels().get(1) - report.levels().get(0) > 0;
-
-            for (int i = 0; i < report.levels().size() - 1; i++) {
-                var levelDiff = Math.abs(report.levels().get(i + 1) - report.levels().get(i));
-                var localIncreasing = report.levels().get(i + 1) - report.levels().get(i) > 0;
-                if(levelDiff > 3 || levelDiff < 1 || localIncreasing != increasing) {
-                    isSafe = false;
-                    break;
-                }
-            }
-
-            if(isSafe) {
+            if(isReportSafe(report.levels())) {
                 totalSafeReports++;
             }
         }
@@ -35,38 +23,33 @@ public class Day2 {
 
     private static int part2(List<Report> reports) {
         var totalSafeReports = 0;
-        System.out.println(reports.size());
         for (Report report : reports) {
-            if(isReportSafe(report.levels(), false)) {
+            if(isReportSafe(report.levels())) {
                 totalSafeReports++;
+            } else {
+                for (int i = 0; i < report.levels().size(); i++) {
+                    var dampenedLevels = new ArrayList<>(report.levels());
+                    dampenedLevels.remove(i);
+                    if(isReportSafe(dampenedLevels)) {
+                        totalSafeReports++;
+                        break;
+                    }
+                }
             }
         }
         return totalSafeReports;
     }
 
-    private static boolean isReportSafe(List<Integer> levels, boolean isLevelRemoved) {
-        var isSafe = true;
+    private static boolean isReportSafe(List<Integer> levels) {
         var increasing = levels.get(1) - levels.get(0) > 0;
         for (int i = 0; i < levels.size() - 1; i++) {
             var levelDiff = Math.abs(levels.get(i + 1) - levels.get(i));
             var localIncreasing = levels.get(i + 1) - levels.get(i) > 0;
             if(levelDiff > 3 || levelDiff < 1 || localIncreasing != increasing) {
-                if (isLevelRemoved) {
-                    isSafe = false;
-                    break;
-                } else {
-                    var levelsWithoutNext = new ArrayList<>(levels);
-                    levelsWithoutNext.remove(i+1);
-
-                    var levelsWithoutCurrent = new ArrayList<>(levels);
-                    levelsWithoutCurrent.remove(i);
-
-                    isSafe = isReportSafe(levelsWithoutNext, true) || isReportSafe(levelsWithoutCurrent, true);
-                    break;
-                }
+                return false;
             }
         }
-        return isSafe;
+        return true;
     }
 
     private static List<Report> parseInput() {
