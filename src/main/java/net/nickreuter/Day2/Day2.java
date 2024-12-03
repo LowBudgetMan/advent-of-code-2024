@@ -1,7 +1,5 @@
 package net.nickreuter.Day2;
 
-import net.nickreuter.Day1.Day1;
-
 import java.util.*;
 
 public class Day2 {
@@ -53,7 +51,7 @@ public class Day2 {
     }
 
     private static List<Report> parseInput() {
-        var input = new Scanner(Objects.requireNonNull(Day1.class.getResourceAsStream("/Day2/input.txt")));
+        var input = new Scanner(Objects.requireNonNull(Day2.class.getResourceAsStream("/Day2/input.txt")));
         var reports = new ArrayList<Report>();
         while (input.hasNextLine()) {
             var levels = Arrays.stream(input.nextLine()

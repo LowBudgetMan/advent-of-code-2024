@@ -16,7 +16,7 @@ public class Day1 {
         System.out.println(part2(left, right));
     }
 
-    public static int part1(List<Integer> left, List<Integer> right) {
+    private static int part1(List<Integer> left, List<Integer> right) {
         left.sort(Integer::compareTo);
         right.sort(Integer::compareTo);
 
@@ -28,7 +28,7 @@ public class Day1 {
         return totalDiff;
     }
 
-    public static int part2(List<Integer> left, List<Integer> right) {
+    private static int part2(List<Integer> left, List<Integer> right) {
         int totalDiff = 0;
         for (var value : left) {
             totalDiff += (int) right.stream().filter(value::equals).count() * value;
