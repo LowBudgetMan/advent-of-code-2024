@@ -80,7 +80,7 @@ public class Day4 {
         int matchCount = 0;
         for (int y = 0; y < grid.length; y++) {
             for (int x = 0; x < grid[0].length; x++) {
-                if (grid[y][x] == 'A' && masCount(y, x, grid)) {
+                if (grid[y][x] == 'A' && isCrossMas(y, x, grid)) {
                     matchCount++;
                 }
             }
@@ -88,7 +88,7 @@ public class Day4 {
         return matchCount;
     }
 
-    private static boolean masCount(int y, int x, char[][] grid) {
+    private static boolean isCrossMas(int y, int x, char[][] grid) {
         char northEast;
         char southEast;
         char northWest;
