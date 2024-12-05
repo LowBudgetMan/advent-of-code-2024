@@ -6,6 +6,7 @@ public class Day4 {
     public static void main(String[] args) {
         var searchGrid = parseInput();
         System.out.println(part1(searchGrid));
+        System.out.println(part2(searchGrid));
     }
 
     private static int part1(char[][] grid) {
@@ -71,6 +72,43 @@ public class Day4 {
             case 'X' -> positionChar == 'M';
             case 'M' -> positionChar == 'A';
             case 'A' -> positionChar == 'S';
+            default -> false;
+        };
+    }
+
+    private static int part2(char[][] grid) {
+        int matchCount = 0;
+        for (int y = 0; y < grid.length; y++) {
+            for (int x = 0; x < grid[0].length; x++) {
+                if (grid[y][x] == 'A' && masCount(y, x, grid)) {
+                    matchCount++;
+                }
+            }
+        }
+        return matchCount;
+    }
+
+    private static boolean masCount(int y, int x, char[][] grid) {
+        char northEast;
+        char southEast;
+        char northWest;
+        char southWest;
+        try {
+            northEast = grid[y-1][x+1];
+            southEast = grid[y+1][x+1];
+            northWest = grid[y-1][x-1];
+            southWest = grid[y+1][x-1];
+        } catch (ArrayIndexOutOfBoundsException e) {
+            return false;
+        }
+
+        return isCorrectPairing(northEast, southWest) && isCorrectPairing(northWest, southEast);
+    }
+
+    private static boolean isCorrectPairing(char piece1, char piece2) {
+        return switch(piece1) {
+            case 'S' -> piece2 == 'M';
+            case 'M' -> piece2 == 'S';
             default -> false;
         };
     }
