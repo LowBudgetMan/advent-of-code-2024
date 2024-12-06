@@ -8,6 +8,7 @@ public class Day5 {
     public static void main(String[] args) {
         var update = parseInput();
         System.out.println(part1(update));
+        System.out.println(part2(update));
     }
 
     private static int part1(BookUpdate bookUpdate) {
@@ -19,6 +20,44 @@ public class Day5 {
             }
         }
         return total;
+    }
+
+    protected static int part2(BookUpdate bookUpdate) {
+        var total = 0;
+        for(var update : bookUpdate.updates()) {
+            if(!isInOrder(update.pages(), bookUpdate.getRulesForPages(update.pages()))) {
+                var reorderedUpdate = new Update(reorderPages(update.pages(), bookUpdate.getRulesForPages(update.pages())));
+                total += reorderedUpdate.getMiddlePage();
+            }
+        }
+        return total;
+    }
+
+    private static List<Integer> reorderPages(List<Integer> pages, List<OrderingRule> rules) {
+        var inOrder = true;
+        var placedPages = new ArrayList<Integer>();
+        for(var page : pages) {
+            var placed = false;
+            var pageRules = rules.stream().filter(orderingRule -> orderingRule.isForTarget(page)).toList();
+            for(var rule : pageRules) {
+                if(placedPages.contains(rule.beforePage())) {
+                    placedPages.add(placedPages.indexOf(rule.beforePage()), rule.target());
+                    placed = true;
+                    break;
+                }
+            }
+            if(!placed) {
+                placedPages.add(page);
+            } else {
+                inOrder = false;
+            }
+        }
+
+        if(inOrder) {
+            return placedPages;
+        } else {
+            return reorderPages(placedPages, rules);
+        }
     }
 
     private static boolean isInOrder(List<Integer> pages, List<OrderingRule> rules) {
