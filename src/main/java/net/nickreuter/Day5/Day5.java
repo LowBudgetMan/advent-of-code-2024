@@ -75,7 +75,7 @@ public class Day5 {
     }
 
     private static BookUpdate parseInput() {
-        var input = new Scanner(Objects.requireNonNull(Day4.class.getResourceAsStream("/Day5/input.txt")));
+        var input = new Scanner(Objects.requireNonNull(Day5.class.getResourceAsStream("/Day5/input.txt")));
         var rules = new ArrayList<OrderingRule>();
         var updates = new ArrayList<Update>();
         while (input.hasNextLine()) {
