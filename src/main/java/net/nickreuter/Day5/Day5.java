@@ -1,7 +1,5 @@
 package net.nickreuter.Day5;
 
-import net.nickreuter.Day4.Day4;
-
 import java.util.*;
 
 public class Day5 {
